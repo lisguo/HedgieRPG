@@ -25,7 +25,6 @@ public class AdvisoryBarrier : MonoBehaviour {
 	float typingDelay = 0.02f;
 
 	void init () {
-		Debug.Log ("START");
 		anim = textBox.GetComponent<Animator> ();
 		//Debug.Log ("Got animator");
 		player = FindObjectOfType<PlayerMotion> ();
@@ -73,24 +72,20 @@ public class AdvisoryBarrier : MonoBehaviour {
 		}
 		if (currentLine % 2 == 1) {
 			StartCoroutine(typeText (textLines[currentLine]));
-			//theText.text = textLines [currentLine];
-		}
-		//While dialog is not over
-		while (anim.GetBool ("dialogueOver") == false) {
-			if (Input.GetKeyDown (KeyCode.Return)) {
-				//If dialog is typing, skip to end
-				if (isTyping) {
-					theText.text = textLines [currentLine];
-					Debug.Log ("Dialog skipped");
-					isTyping = false;
-					cancelTyping = true;
-				} else if (cancelTyping) {
-					Debug.Log ("Dialog is over");
-					anim.SetBool ("dialogueOver", true); //CLOSE DIALOG
-					player.canMove = true;
-				}
-			}
 		}
 
+	}
+
+	void Update(){
+		if (Input.GetKeyDown (KeyCode.Return)) {
+			//If dialog is typing, skip to end
+			if (isTyping) {
+				theText.text = textLines [currentLine];
+				anim.SetBool ("dialogueOver", false); //KEEP DIALOG OPEN
+				isTyping = false;
+				cancelTyping = true;
+			} 
+
+		}
 	}
 }
