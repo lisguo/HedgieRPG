@@ -17,6 +17,9 @@ public class TextBoxManagerOpening : MonoBehaviour {
 
 	public PlayerMotion player;
 
+	//Vars for character portraits
+	public CharacterPortraitController characterLeft;
+
 	//Vars for text scrolling
 	private bool isTyping;
 	private bool cancelTyping;
@@ -43,6 +46,7 @@ public class TextBoxManagerOpening : MonoBehaviour {
 			endAtLine = textLines.Length - 1;
 		}
 		counter = 0;
+
 	}
 
 	void Update(){
@@ -59,6 +63,10 @@ public class TextBoxManagerOpening : MonoBehaviour {
 				anim.SetBool ("dialogueOver", false);
 				player.canMove = false;
 				player.GetComponent<Animator>().SetBool ("isWalking", false);
+
+				//Show left portrait
+				characterLeft.setPineconeBed();
+				characterLeft.showPortrait ();
 				characterName.text = textLines [currentLine];
 				currentLine += 1;
 				StartCoroutine(typeText (textLines[currentLine]));
@@ -78,6 +86,9 @@ public class TextBoxManagerOpening : MonoBehaviour {
 					if (cancelTyping) {
 						anim.SetBool("dialogueOver", true);
 						player.canMove = true;
+
+						//Disable portrait
+						characterLeft.disablePortrait();
 					} else {
 						if (currentLine % 2 == 1) {
 							StartCoroutine (typeText (textLines [currentLine]));
