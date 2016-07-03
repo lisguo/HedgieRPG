@@ -15,8 +15,11 @@ public class AdvisoryBarrier : MonoBehaviour {
 	public int currentLine;
 	public int endAtLine;
 
-	public PlayerMotion player;
+	private PlayerMotion player;
 
+	//Vars for character portraits
+	public Sprite characterPortrait;
+	private CharacterPortraitController controller;
 
 	//Vars for text scrolling
 	private bool isTyping;
@@ -28,6 +31,7 @@ public class AdvisoryBarrier : MonoBehaviour {
 		anim = textBox.GetComponent<Animator> ();
 		//Debug.Log ("Got animator");
 		player = FindObjectOfType<PlayerMotion> ();
+		controller = FindObjectOfType<CharacterPortraitController> ();
 
 		if (textFile != null) {
 			//Debug.Log ("Text file found");
@@ -67,7 +71,8 @@ public class AdvisoryBarrier : MonoBehaviour {
 		if (currentLine % 2 == 0) {
 			//Put Character Name
 			characterName.text = textLines [currentLine];
-			Debug.Log (characterName.text + " is speaking");
+			controller.setImage (characterPortrait);
+			controller.showPortrait ();
 			currentLine += 1;
 		}
 		if (currentLine % 2 == 1) {
@@ -79,13 +84,21 @@ public class AdvisoryBarrier : MonoBehaviour {
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			//If dialog is typing, skip to end
+
+			Debug.Log ("is Typing: " + isTyping);
 			if (isTyping) {
 				theText.text = textLines [currentLine];
-				anim.SetBool ("dialogueOver", false); //KEEP DIALOG OPEN
+				anim.SetBool ("dialogueOver", false); //Open dialog
+				controller.showPortrait(); //Keep portrait open
 				isTyping = false;
 				cancelTyping = true;
 			} 
-
+			else if (cancelTyping) {
+				anim.SetBool ("dialogueOver", true); //Close dialog
+				controller.disablePortrait();
+				cancelTyping = false;
+				currentLine -= 1; //Used for future purposes
+			}
 		}
 	}
 }
