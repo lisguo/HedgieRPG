@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class AdvisoryBarrier : MonoBehaviour {
 
-	public Animator anim;
+	public Animator textBoxAnim;
 	public GameObject textBox;
 	public Text theText;
 	public Text characterName;
@@ -12,8 +12,9 @@ public class AdvisoryBarrier : MonoBehaviour {
 	public TextAsset textFile;
 	public string[] textLines;
 
-	public int currentLine;
+	public int startingLine;
 	public int endAtLine;
+	private int currentLine;
 
 	private PlayerMotion player;
 
@@ -24,11 +25,14 @@ public class AdvisoryBarrier : MonoBehaviour {
 	//Vars for text scrolling
 	private bool isTyping;
 	private bool cancelTyping;
+
+	public bool oneTimeActivate;
 	//TYPING SPEED HERE
 	float typingDelay = 0.02f;
 
 	void init () {
-		anim = textBox.GetComponent<Animator> ();
+		currentLine = startingLine;
+		textBoxAnim = textBox.GetComponent<Animator> ();
 		//Debug.Log ("Got animator");
 		player = FindObjectOfType<PlayerMotion> ();
 		controller = FindObjectOfType<CharacterPortraitController> ();
@@ -36,7 +40,7 @@ public class AdvisoryBarrier : MonoBehaviour {
 		if (textFile != null) {
 			//Debug.Log ("Text file found");
 			textLines = textFile.text.Split ('\n');
-			anim.SetBool ("dialogueOver", false); //OPEN DIALOG
+			textBoxAnim.SetBool ("dialogueOver", false); //OPEN DIALOG
 			player.canMove = false;
 			player.GetComponent<Animator>().SetBool ("isWalking", false);
 		}
@@ -44,6 +48,11 @@ public class AdvisoryBarrier : MonoBehaviour {
 		if (endAtLine == 0) {
 			endAtLine = textLines.Length - 1;
 		}
+
+		//SHOW PORTRAIT
+
+		controller.setImage (characterPortrait);
+		controller.showPortrait ();
 	}
 
 	private IEnumerator typeText(string lineOfText){
@@ -71,33 +80,33 @@ public class AdvisoryBarrier : MonoBehaviour {
 		if (currentLine % 2 == 0) {
 			//Put Character Name
 			characterName.text = textLines [currentLine];
-			controller.setImage (characterPortrait);
-			controller.showPortrait ();
 			currentLine += 1;
 		}
 		if (currentLine % 2 == 1) {
 			StartCoroutine(typeText (textLines[currentLine]));
 		}
+			
 
 	}
 
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			//If dialog is typing, skip to end
-
-			Debug.Log ("is Typing: " + isTyping);
 			if (isTyping) {
 				theText.text = textLines [currentLine];
-				anim.SetBool ("dialogueOver", false); //Open dialog
+				textBoxAnim.SetBool ("dialogueOver", false); //Open dialog
 				controller.showPortrait(); //Keep portrait open
 				isTyping = false;
 				cancelTyping = true;
 			} 
 			else if (cancelTyping) {
-				anim.SetBool ("dialogueOver", true); //Close dialog
+				textBoxAnim.SetBool ("dialogueOver", true); //Close dialog
 				controller.disablePortrait();
 				cancelTyping = false;
-				currentLine -= 1; //Used for future purposes
+
+				if (oneTimeActivate) {
+					gameObject.SetActive (false);
+				}
 			}
 		}
 	}
