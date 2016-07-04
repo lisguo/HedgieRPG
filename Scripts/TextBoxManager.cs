@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TextBoxManager : MonoBehaviour {
 
-	public Animator anim;
+	private Animator anim;
 	public GameObject textBox;
 	public Text theText;
 	public Text characterName;
@@ -17,12 +17,20 @@ public class TextBoxManager : MonoBehaviour {
 
 	private PlayerMotion player;
 
+	//Vars for showing portrait
+	public CharacterPortraitController characterPortraitCtrl;
+	public Sprite[] portraits;
+	private int currPortraitIndex;
+	private string currCharName;
 
 	//Vars for text scrolling
 	private bool isTyping;
 	private bool cancelTyping;
+	private bool firstDialogue;
+
+
 	//TYPING SPEED HERE
-	int typingDelay = 1;
+	float typingDelay = 0.02f;
 
 	// Use this for initialization
 	void Start () {
@@ -33,34 +41,38 @@ public class TextBoxManager : MonoBehaviour {
 		if (textFile != null) {
 			//Debug.Log ("Text file found");
 			textLines = textFile.text.Split ('\n');
-			anim.SetBool ("dialogueOver", false);
+			EnableTextBox ();
 			player.canMove = false;
 			player.GetComponent<Animator>().SetBool ("isWalking", false);
+
+
+			currPortraitIndex = 0;
+			currCharName = textLines [currentLine];
 		}
 
 		if (endAtLine == 0) {
 			endAtLine = textLines.Length - 1;
 		}
+		firstDialogue = true;
 	}
 
 	void Update(){
 
+		//If finished convo
 		if (currentLine > endAtLine) {
 			//Close textBox
-			anim.SetBool ("dialogueOver", true);
+			DisableTextBox();
 			player.canMove = true;
 		} else {
-			//SHOW DIALOG
-			if (currentLine % 2 == 0) {
-				//Put Character Name
-				characterName.text = textLines [currentLine];
-				currentLine += 1;
-			}
-			//ACTUAL DIALOGUE
-			if (currentLine % 2 == 1) {
+			//SHOW DIALOGE
+			EnableTextBox();
+			showPortraitAndName ();
+
+			//SHOW DIALOGUE WHEN LINE IS ODD AND ITS FIRST DIAG
+			if (currentLine % 2 == 1 && firstDialogue) {
 				//TYPE TEXT
-				StartCoroutine(typeText (textLines[currentLine]));
-				//theText.text = textLines [currentLine];
+				StartCoroutine (typeText (textLines [currentLine]));
+				firstDialogue = false;
 			}
 			if (Input.GetKeyDown (Constants.CONFIRM)) {
 				//If dialog is typing, skip to end
@@ -68,8 +80,12 @@ public class TextBoxManager : MonoBehaviour {
 					theText.text = textLines [currentLine];
 					isTyping = false;
 					cancelTyping = true;
-				} else {
+				}
+				else {
 					currentLine += 1;
+
+					showPortraitAndName ();
+					StartCoroutine (typeText (textLines [currentLine]));
 				}
 			}
 		}
@@ -94,13 +110,28 @@ public class TextBoxManager : MonoBehaviour {
 		cancelTyping = true;
 
 	}
+
+	void showPortraitAndName(){
+		if (currentLine % 2 == 0) {
+			//Check if char name changed, if so then move to next sprite
+			if (!currCharName.Equals (textLines [currentLine])) {
+				currPortraitIndex += 1;
+			}
+			//Show Portrait
+			characterPortraitCtrl.setImage (portraits [currPortraitIndex]);
+			characterPortraitCtrl.showPortrait ();
+
+			//Put Character Name
+			characterName.text = textLines [currentLine];
+			currentLine += 1;
+		}
+	}
+
 	public void EnableTextBox(){
 		anim.SetBool("dialogueOver", false);
-		anim.SetBool ("newDialogue", true);
 	}
 	public void DisableTextBox(){
-		anim.SetBool ("newDialogue", false);
-		anim.SetBool("dialogueOver", true);
+		anim.SetBool ("dialogueOver", true);
 	}
 
 }
