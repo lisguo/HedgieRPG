@@ -60,10 +60,13 @@ public class TextBoxManager : MonoBehaviour {
 
 		//If finished convo
 		if (currentLine > endAtLine) {
-			//Close textBox
+			
+			//Close textBox and disable portrait
 			DisableTextBox();
 			player.canMove = true;
+			characterPortraitCtrl.disablePortrait ();
 		} else {
+			
 			//SHOW DIALOGE
 			EnableTextBox();
 			showPortraitAndName ();
@@ -80,10 +83,10 @@ public class TextBoxManager : MonoBehaviour {
 					theText.text = textLines [currentLine];
 					isTyping = false;
 					cancelTyping = true;
+					characterPortraitCtrl.showPortrait (); //BAND AID FIX FOR PORTRAIT NOT SHOWING AFTER SKIP
 				}
 				else {
 					currentLine += 1;
-
 					showPortraitAndName ();
 					StartCoroutine (typeText (textLines [currentLine]));
 				}
@@ -114,8 +117,10 @@ public class TextBoxManager : MonoBehaviour {
 	void showPortraitAndName(){
 		if (currentLine % 2 == 0) {
 			//Check if char name changed, if so then move to next sprite
-			if (!currCharName.Equals (textLines [currentLine])) {
+			string nextCharName = textLines[currentLine];
+			if (!currCharName.Equals (nextCharName)) {
 				currPortraitIndex += 1;
+				currCharName = nextCharName;
 			}
 			//Show Portrait
 			characterPortraitCtrl.setImage (portraits [currPortraitIndex]);
