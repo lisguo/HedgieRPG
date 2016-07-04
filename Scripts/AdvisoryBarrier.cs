@@ -90,7 +90,7 @@ public class AdvisoryBarrier : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.Return)) {
+		if (Input.GetKeyDown (Constants.CONFIRM)) {
 			//If dialog is typing, skip to end
 			if (isTyping) {
 				theText.text = textLines [currentLine];

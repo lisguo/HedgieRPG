@@ -15,7 +15,7 @@ public class TextBoxManager : MonoBehaviour {
 	public int currentLine;
 	public int endAtLine;
 
-	public PlayerMotion player;
+	private PlayerMotion player;
 
 
 	//Vars for text scrolling
@@ -62,7 +62,7 @@ public class TextBoxManager : MonoBehaviour {
 				StartCoroutine(typeText (textLines[currentLine]));
 				//theText.text = textLines [currentLine];
 			}
-			if (Input.GetKeyDown (KeyCode.Return)) {
+			if (Input.GetKeyDown (Constants.CONFIRM)) {
 				//If dialog is typing, skip to end
 				if (isTyping) {
 					theText.text = textLines [currentLine];

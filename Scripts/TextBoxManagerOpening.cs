@@ -15,7 +15,7 @@ public class TextBoxManagerOpening : MonoBehaviour {
 	public int currentLine;
 	public int endAtLine;
 
-	public PlayerMotion player;
+	private PlayerMotion player;
 
 	//Vars for character portraits
 	public CharacterPortraitController characterPortrait;
@@ -77,7 +77,7 @@ public class TextBoxManagerOpening : MonoBehaviour {
 				counter += 1;
 			}
 
-			if (Input.GetKeyDown (KeyCode.Return)) {
+			if (Input.GetKeyDown (Constants.CONFIRM)) {
 				//If dialog is typing, skip to end
 				if (isTyping) {
 					theText.text = textLines [currentLine];
@@ -99,6 +99,10 @@ public class TextBoxManagerOpening : MonoBehaviour {
 				}
 			}
 		} else {
+			//SHOW CHESTNUT
+			characterPortrait.setImage (chestnutSprite);
+			characterPortrait.showPortrait ();
+
 			if (currentLine % 2 == 0) {
 				//Put Character Name
 				characterName.text = textLines [currentLine];
@@ -108,7 +112,7 @@ public class TextBoxManagerOpening : MonoBehaviour {
 				StartCoroutine (typeText (textLines [currentLine]));
 				showOnce = false;
 			}
-			if (Input.GetKeyDown (KeyCode.Return)) {
+			if (Input.GetKeyDown (Constants.CONFIRM)) {
 				//If dialog is typing, skip to end
 				if (isTyping) {
 					theText.text = textLines [currentLine];
@@ -117,6 +121,9 @@ public class TextBoxManagerOpening : MonoBehaviour {
 				} else {
 					//START TEXT TYPING
 					if (cancelTyping) {
+
+						//DISABLE CHESTNUT PORTRAIT
+						characterPortrait.disablePortrait();
 						currentLine += 1;
 					}
 				}
