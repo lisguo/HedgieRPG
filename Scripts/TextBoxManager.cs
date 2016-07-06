@@ -87,8 +87,10 @@ public class TextBoxManager : MonoBehaviour {
 				}
 				else {
 					currentLine += 1;
-					showPortraitAndName ();
-					StartCoroutine (typeText (textLines [currentLine]));
+					if (currentLine <= endAtLine) {
+						showPortraitAndName ();
+						StartCoroutine (typeText (textLines [currentLine]));
+					}
 				}
 			}
 		}
