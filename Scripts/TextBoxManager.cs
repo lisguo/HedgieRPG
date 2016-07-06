@@ -28,6 +28,7 @@ public class TextBoxManager : MonoBehaviour {
 	private bool cancelTyping;
 	private bool firstDialogue;
 
+	private bool diagDone = false;
 
 	//TYPING SPEED HERE
 	float typingDelay = 0.02f;
@@ -65,6 +66,7 @@ public class TextBoxManager : MonoBehaviour {
 			DisableTextBox();
 			player.canMove = true;
 			characterPortraitCtrl.disablePortrait ();
+			diagDone = true;
 		} else {
 			
 			//SHOW DIALOGE
@@ -141,4 +143,8 @@ public class TextBoxManager : MonoBehaviour {
 		anim.SetBool ("dialogueOver", true);
 	}
 
+
+	public bool getDiagDone(){
+		return diagDone;
+	}
 }
