@@ -23,7 +23,9 @@ You took too long to get ready, so I ate it.
 -Chestnut-
 ...
 -Chestnut-
-Sorry. I'll make you something good, but you gotta get the ingredients from town. I need tripe, a coconut, peanut butter, and jellyfish.
+Sorry. I'll make you something good, but you gotta get the ingredients from town.
+-Chestnut-
+ I need TRIPE, a COCONUT, PEANUT BUTTER, and JELLYFISH.
 -Pinecone-
 What the heck are you making? 
 -Chestnut-

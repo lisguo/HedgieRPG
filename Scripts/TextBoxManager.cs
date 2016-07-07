@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TextBoxManager : MonoBehaviour {
 
-	private Animator anim;
+	public Animator textAnim;
 	public GameObject textBox;
 	public Text theText;
 	public Text characterName;
@@ -13,6 +13,8 @@ public class TextBoxManager : MonoBehaviour {
 	public string[] textLines;
 
 	public int currentLine;
+
+	private int startingLine;
 	public int endAtLine;
 
 	private PlayerMotion player;
@@ -35,7 +37,7 @@ public class TextBoxManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		anim = textBox.GetComponent<Animator> ();
+		textAnim = textBox.GetComponent<Animator> ();
 		//Debug.Log ("Got animator");
 		player = FindObjectOfType<PlayerMotion> ();
 
@@ -55,6 +57,7 @@ public class TextBoxManager : MonoBehaviour {
 			endAtLine = textLines.Length - 1;
 		}
 		firstDialogue = true;
+		startingLine = currentLine;
 	}
 
 	void Update(){
@@ -137,10 +140,10 @@ public class TextBoxManager : MonoBehaviour {
 	}
 
 	public void EnableTextBox(){
-		anim.SetBool("dialogueOver", false);
+		textAnim.SetBool("dialogueOver", false);
 	}
 	public void DisableTextBox(){
-		anim.SetBool ("dialogueOver", true);
+		textAnim.SetBool ("dialogueOver", true);
 	}
 
 
