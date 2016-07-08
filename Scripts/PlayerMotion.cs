@@ -20,6 +20,7 @@ public class PlayerMotion : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Used for diag boxes
 		if (!canMove) {
 			rbody.velocity = Vector2.zero;
 			return;
