@@ -1,34 +1,34 @@
--Chestnut-
-Pinecone, Honey! Breakfast is ready!
--Pinecone-
+Chestnut
+Pinecone! Breakfast is ready!
+Pinecone
 I better get dressed and head downstairs.
 
 
--Pinecone-
+Pinecone
 Time to greet Chestnut.
 
 
--Chestnut-
+Chestnut
 Good morning!
--Pinecone-
+Pinecone
 Good morning!
--Pinecone-
+Pinecone
 ...
--Pinecone-
+Pinecone
 So, why is my plate empty?
--Chestnut-
+Chestnut
 You took too long to get ready, so I ate it.
--Pinecone-
+Pinecone
 ...
--Chestnut-
+Chestnut
 ...
--Chestnut-
+Chestnut
 Sorry. I'll make you something good, but you gotta get the ingredients from town.
--Chestnut-
+Chestnut
  I need TRIPE, a COCONUT, PEANUT BUTTER, and JELLYFISH.
--Pinecone-
+Pinecone
 What the heck are you making? 
--Chestnut-
+Chestnut
 It's a surprise.
--Pinecone-
+Pinecone
 Okay, I'll be back.

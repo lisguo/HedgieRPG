@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Event1_Errands : NPCInteractionController
+public class CloseEventAfterTalk : NPCInteractionController
 {
 	public EventObject theEvent;
 
