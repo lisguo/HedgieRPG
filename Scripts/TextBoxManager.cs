@@ -57,6 +57,7 @@ public class TextBoxManager : MonoBehaviour {
 			endAtLine = textLines.Length - 1;
 		}
 		firstDialogue = true;
+
 		startingLine = currentLine;
 	}
 
@@ -144,6 +145,9 @@ public class TextBoxManager : MonoBehaviour {
 	}
 	public void DisableTextBox(){
 		textAnim.SetBool ("dialogueOver", true);
+		currPortraitIndex = 0;
+		currentLine = startingLine;
+		this.enabled = false;
 	}
 
 
