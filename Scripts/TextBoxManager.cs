@@ -147,6 +147,7 @@ public class TextBoxManager : MonoBehaviour {
 		textAnim.SetBool ("dialogueOver", true);
 		currPortraitIndex = 0;
 		currentLine = startingLine;
+		firstDialogue = true;
 		this.enabled = false;
 	}
 

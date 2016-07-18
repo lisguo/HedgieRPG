@@ -23,6 +23,7 @@ public class PlayerMotion : MonoBehaviour {
 		//Used for diag boxes
 		if (!canMove) {
 			rbody.velocity = Vector2.zero;
+			anim.SetBool ("isWalking", false);
 			return;
 		}
 		Vector2 movement_vector = new Vector2 (Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
