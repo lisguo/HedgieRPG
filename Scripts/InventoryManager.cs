@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class InventoryManager : MonoBehaviour
 {
 
-	[SerializeField] ItemDatabase database;
+	public ItemDatabase database;
 	public List<Item> inventory;
 	public List<int> quantity;
 
@@ -58,7 +58,7 @@ public class InventoryManager : MonoBehaviour
 		} else {
 			this.quantity.Add (quantity);
 		}
-		Debug.Log ("Added " + inventory[index].itemName + " x" + this.quantity[index]);
+		Debug.Log ("Added " + inventory[index].itemName + " x" + quantity);
 	}
 		
 }
