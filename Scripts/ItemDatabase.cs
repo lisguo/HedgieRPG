@@ -52,6 +52,7 @@ public class ItemDatabase : MonoBehaviour
 				return database [i];
 			}
 		}
+		Debug.Log("Item ID Not found");
 		return null;
 	}
 }

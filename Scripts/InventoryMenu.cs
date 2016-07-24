@@ -22,7 +22,7 @@ public class InventoryMenu : MonoBehaviour
 	public GameObject itemActionPanel;
 
 	// Use this for initialization
-	void Start()
+	void OnEnable()
 	{
 		initializeInventory();
 		initializePartyMembers();
@@ -37,6 +37,11 @@ public class InventoryMenu : MonoBehaviour
 
 	void initializePartyMembers()
 	{
+		//DELETE CHILDREN IF THERE ARE ANY IN LIS
+		for (int i = 0; i < partyList.transform.childCount; i++) {
+			GameObject.Destroy(partyList.transform.GetChild(i).gameObject);
+		}
+
 		pSlots = new List<GameObject>();
 		List<PartyMember> party = partyManager.party;
 		for (int i = 0; i < party.Count; i++)
@@ -63,13 +68,20 @@ public class InventoryMenu : MonoBehaviour
 
 	Sprite getStatusPortrait(string character)
 	{
-		if (character == "Pinecone")
-		{
+		if (character == "Pinecone"){
 			return partyManager.pineconeStatus;
 		}
-		else if (character == "Chestnut")
-		{
+		else if (character == "Chestnut"){
 			return partyManager.chestnutStatus;
+		}
+		else if(character == "Bunny"){
+			return partyManager.bunnyStatus;
+		}else if(character == "Enna"){
+			return partyManager.ennaStatus;
+		}else if (character == "Skippy") {
+			return partyManager.skippyStatus;
+		}else if (character == "Ciel") {
+			return partyManager.cielStatus;
 		}
 		return null;
 	}
@@ -77,9 +89,8 @@ public class InventoryMenu : MonoBehaviour
 	{
 
 		//DELETE CHILDREN IF THERE ARE ANY IN LIST
-		while (itemList.transform.childCount > 0)
-		{
-			GameObject.Destroy(itemList.transform.GetChild(0));
+		for (int i = 0; i < itemList.transform.childCount; i++) {
+			GameObject.Destroy(itemList.transform.GetChild(i).gameObject);
 		}
 
 

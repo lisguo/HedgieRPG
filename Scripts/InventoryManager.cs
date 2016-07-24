@@ -59,6 +59,37 @@ public class InventoryManager : MonoBehaviour
 		}
 		Debug.Log ("Added " + inventory[index].itemName + " x" + quantity);
 	}
+
+	void removeItemById(int id, int quantity){
+		Item item = database.fetchItemByID(id);
+		bool itemExists = false;
+		int index = -1;
+		//Check if item exists
+		foreach (Item i in inventory) {
+			if (i.id == item.id) {
+				//Debug.Log ("ITEM EXISTS");
+				//If so, set index to index of prev item
+				index = inventory.IndexOf(i);
+				itemExists = true;
+			}
+		}
+
+		if (!itemExists) {
+			Debug.Log("ITEM DOES NOT EXIST");
+			return;
+		}
+
+		//SET QUANTITY
+		//ITEM EXISTS
+		this.quantity[index] -= quantity;
+		//Check if quantity is less or equal to 0
+		if(this.quantity[index] <= 0){
+			//Remove itemm
+			inventory.Remove(item);
+			this.quantity.RemoveAt(index);
+		}
+		Debug.Log("Removed " + item.itemName + " x" + quantity);
+	}
 		
 }
 

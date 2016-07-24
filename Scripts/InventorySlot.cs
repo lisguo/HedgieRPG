@@ -21,7 +21,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	}
 
 	public void OnPointerExit(PointerEventData eventData) {
-		itemDescription.text = "";
+		//itemDescription.text = "";
 	}
 
 	public void OnPointerClick(PointerEventData eventData) {
