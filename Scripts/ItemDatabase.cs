@@ -18,14 +18,31 @@ public class ItemDatabase : MonoBehaviour
 
 	void ConstructItemDatabase(){
 		for (int i = 0; i < itemData.Count; i++) {
-			int id = (int )itemData [i] ["id"];
+			int id = (int)itemData[i]["id"];
 			string itemName = (string) itemData [i] ["itemName"];
 			int sellingValue = (int) itemData [i] ["sellingValue"];
 			int buyingValue = (int) itemData [i] ["buyingValue"];
 			string type = (string) itemData [i] ["type"];
 			string description = (string) itemData [i] ["description"];
-			database.Add (new Item(id, itemName, sellingValue, buyingValue,
-				type, description));
+
+			//Check for category
+			string category = (string)itemData[i]["category"];
+
+			if(category == "Consumable"){
+				int statBoost = (int)itemData[i]["statBoost"];
+				database.Add(new Consumable(id, itemName, sellingValue, buyingValue, 
+				                            type, description, statBoost));
+			}
+			else if(category == "Weapon"){
+				int damage = (int)itemData[i]["damage"];
+				database.Add(new Weapon(id, itemName, sellingValue, buyingValue, 
+				                        type, description, damage));
+			}
+			else if(category == "Armor"){
+				int defence = (int)itemData[i]["defence"];
+				database.Add(new Armor(id, itemName, sellingValue, buyingValue,
+										type, description, defence));
+			}
 		}
 	}
 
@@ -64,16 +81,46 @@ public class Item
 public class Weapon : Item {
 
 	public int damage;
-	public Sprite img;
+
+	public Weapon(int id, string itemName, int sellingValue, int buyingValue, string type, string description, int damage){
+		this.id = id;
+		this.itemName = itemName;
+		this.sellingValue = sellingValue;
+		this.buyingValue = buyingValue;
+		this.type = type;
+		this.description = description;
+		this.damage = damage;
+	}
 }
 
 public class Armor : Item {
 
-	public int def;
-	public Sprite img;
+	public int defence;
+
+	public Armor(int id, string itemName, int sellingValue, int buyingValue, string type, string description, int defence)
+	{
+		this.id = id;
+		this.itemName = itemName;
+		this.sellingValue = sellingValue;
+		this.buyingValue = buyingValue;
+		this.type = type;
+		this.description = description;
+		this.defence = defence;
+	}
 }
 
 public class Consumable : Item{
 	public int statBoost;
+
+	public Consumable(int id, string itemName, int sellingValue, int buyingValue, string type, string description, int statBoost)
+	{
+		this.id = id;
+		this.itemName = itemName;
+		this.sellingValue = sellingValue;
+		this.buyingValue = buyingValue;
+		this.type = type;
+		this.description = description;
+		this.statBoost = statBoost;
+	}
 }
 

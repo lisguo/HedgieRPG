@@ -23,14 +23,13 @@ public class InventoryManager : MonoBehaviour
 		//TESTT
 		addItemByID (3,3);
 		addItemByID (0, 5);
-		addItemByID (0,5);
+		addItemByID(4, 1);
 
 		//TEST
 		foreach(Item item in inventory){
 			inventoryStr.Add (item.itemName);
 		}
 	}
-
 
 	void addItemByID(int id, int quantity){
 		Item item = database.fetchItemByID (id);

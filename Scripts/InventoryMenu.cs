@@ -19,6 +19,8 @@ public class InventoryMenu : MonoBehaviour
 	List<GameObject> slots;
 	List<GameObject> pSlots;
 
+	public GameObject itemActionPanel;
+
 	// Use this for initialization
 	void Start()
 	{
