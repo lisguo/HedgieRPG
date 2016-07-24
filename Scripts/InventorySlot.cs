@@ -28,6 +28,10 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		Item item = getItemByName(this.GetComponentsInChildren<Text>()[0].text);
 		invMenu.itemActionPanel.GetComponent<InventoryItemAction>().setItem(item);
 		invMenu.itemActionPanel.SetActive(true);
+
+		//Set controls for state in pause menu
+		PauseMenuController.currentMenu = invMenu.itemActionPanel;
+		PauseMenuController.state = 2;
 	}
 
 	Item getItemByName(string itemName){
