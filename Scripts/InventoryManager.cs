@@ -60,7 +60,7 @@ public class InventoryManager : MonoBehaviour
 		Debug.Log ("Added " + inventory[index].itemName + " x" + quantity);
 	}
 
-	void removeItemById(int id, int quantity){
+	public void removeItemById(int id, int quantity){
 		Item item = database.fetchItemByID(id);
 		bool itemExists = false;
 		int index = -1;

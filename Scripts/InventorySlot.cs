@@ -15,9 +15,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	}
 
 	public void OnPointerEnter(PointerEventData eventData){
-		//SHOW DESCRIPTION ON MOUSE OVER
-		string itemName = this.GetComponentsInChildren<Text>()[0].text;
-		itemDescription.text = getItemByName(itemName).description;
+		if (GetComponent<Button>().interactable) {
+			//SHOW DESCRIPTION ON MOUSE OVER
+			string itemName = this.GetComponentsInChildren<Text>()[0].text;
+			itemDescription.text = getItemByName(itemName).description;
+		}
 	}
 
 	public void OnPointerExit(PointerEventData eventData) {
@@ -28,6 +30,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		Item item = getItemByName(this.GetComponentsInChildren<Text>()[0].text);
 		invMenu.itemActionPanel.GetComponent<InventoryItemAction>().setItem(item);
 		invMenu.itemActionPanel.SetActive(true);
+
+		//Set all inventory slots uninteracteable
+		GameObject itemList = GameObject.FindGameObjectWithTag("ItemList");
+		Button[] buttons = itemList.GetComponentsInChildren<Button>();
+		for (int i = 0; i < buttons.Length; i ++){
+			Button currButton = buttons[i];
+			currButton.interactable = false;
+		}
 
 		//Set controls for state in pause menu
 		PauseMenuController.currentMenu = invMenu.itemActionPanel;

@@ -28,14 +28,7 @@ public class InventoryMenu : MonoBehaviour
 		initializePartyMembers();
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
-
-
-	void initializePartyMembers()
+	public void initializePartyMembers()
 	{
 		//DELETE CHILDREN IF THERE ARE ANY IN LIS
 		for (int i = 0; i < partyList.transform.childCount; i++) {
@@ -85,7 +78,7 @@ public class InventoryMenu : MonoBehaviour
 		}
 		return null;
 	}
-	void initializeInventory()
+	public void initializeInventory()
 	{
 
 		//DELETE CHILDREN IF THERE ARE ANY IN LIST
