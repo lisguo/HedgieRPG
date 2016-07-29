@@ -78,8 +78,7 @@ public class InventoryMenu : MonoBehaviour
 		}
 		return null;
 	}
-	public void initializeInventory()
-	{
+	public void initializeInventory(){
 
 		//DELETE CHILDREN IF THERE ARE ANY IN LIST
 		for (int i = 0; i < itemList.transform.childCount; i++) {
@@ -119,6 +118,22 @@ public class InventoryMenu : MonoBehaviour
 
 		}
 
+	}
+
+	public void uninteractButtons(){
+		Button[] buttons = itemList.GetComponentsInChildren<Button>();
+		for (int i = 0; i < buttons.Length; i++) {
+			Button currButton = buttons[i];
+			currButton.interactable = false;
+		}
+	}
+
+	public void interactButtons(){
+		Button[] buttons = itemList.GetComponentsInChildren<Button>();
+		for (int i = 0; i < buttons.Length; i++) {
+			Button currButton = buttons[i];
+			currButton.interactable = true;
+		}
 	}
 }
 

@@ -31,13 +31,9 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		invMenu.itemActionPanel.GetComponent<InventoryItemAction>().setItem(item);
 		invMenu.itemActionPanel.SetActive(true);
 
+
 		//Set all inventory slots uninteracteable
-		GameObject itemList = GameObject.FindGameObjectWithTag("ItemList");
-		Button[] buttons = itemList.GetComponentsInChildren<Button>();
-		for (int i = 0; i < buttons.Length; i ++){
-			Button currButton = buttons[i];
-			currButton.interactable = false;
-		}
+		invMenu.uninteractButtons();
 
 		//Set controls for state in pause menu
 		PauseMenuController.currentMenu = invMenu.itemActionPanel;
