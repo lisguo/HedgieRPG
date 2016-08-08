@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class TextBoxManager : MonoBehaviour {
 
-	public Animator textAnim;
-	public GameObject textBox;
-	public Text theText;
-	public Text characterName;
+	Animator textAnim;
+	GameObject textBox;
+	Text theText;
+	Text characterName;
 
 	public TextAsset textFile;
 	public string[] textLines;
@@ -20,7 +20,7 @@ public class TextBoxManager : MonoBehaviour {
 	private PlayerMotion player;
 
 	//Vars for showing portrait
-	public CharacterPortraitController characterPortraitCtrl;
+	CharacterPortraitController characterPortraitCtrl;
 	public Sprite[] portraits;
 	private int currPortraitIndex;
 	private string currCharName;
@@ -37,7 +37,11 @@ public class TextBoxManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		textAnim = textBox.GetComponent<Animator> ();
+		textBox = GameObject.FindGameObjectWithTag("TextBox");
+		textAnim = textBox.GetComponent<Animator>();
+		theText = GameObject.FindGameObjectWithTag("TextBoxText").GetComponent<Text>();
+		characterName = GameObject.FindGameObjectWithTag("TextBoxName").GetComponent<Text>();
+		characterPortraitCtrl = FindObjectOfType<CharacterPortraitController>();
 		//Debug.Log ("Got animator");
 		player = FindObjectOfType<PlayerMotion> ();
 
@@ -154,5 +158,9 @@ public class TextBoxManager : MonoBehaviour {
 
 	public bool getDiagDone(){
 		return diagDone;
+	}
+
+	public Animator getTextAnim(){
+		return textAnim;
 	}
 }

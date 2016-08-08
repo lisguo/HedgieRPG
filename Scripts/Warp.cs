@@ -15,6 +15,9 @@ public class Warp : MonoBehaviour {
 		other.gameObject.transform.position = warpTarget.position;
 		Camera.main.transform.position = warpTarget.position;
 
+		//wait a few seconds
+		yield return new WaitForSeconds(0.1f);
+
 		Debug.Log ("Fading Out");
 		yield return StartCoroutine (sf.FadeToClear ());
 	}
