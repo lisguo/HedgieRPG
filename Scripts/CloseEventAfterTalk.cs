@@ -25,12 +25,12 @@ public class CloseEventAfterTalk : NPCInteractionController
 				NPC.GetComponent<TextBoxManager> ().enabled = true;
 			}
 		}
-	}
-		
-	void OnTriggerExit2D(){
-		base.isTalkable = false;
-		NPC.GetComponent<TextBoxManager> ().enabled = false;
-		theEvent.endEvent();
+
+		if(NPC.GetComponent<TextBoxManager>().getDiagDone() == true){
+			base.isTalkable = false;
+			NPC.GetComponent<TextBoxManager>().enabled = false;
+			theEvent.endEvent();
+		}
 	}
 }
 

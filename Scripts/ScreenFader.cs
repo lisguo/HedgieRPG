@@ -27,6 +27,14 @@ public class ScreenFader : MonoBehaviour {
 			yield return null;
 		}
 	}
+	public IEnumerator FadeToBattle(){
+		isFading = true;
+		anim.ResetTrigger("FadeToBattle");
+		anim.SetTrigger("FadeToBattle");
+		while(isFading){
+			yield return null;
+		}
+	}
 	void AnimationComplete(){
 		isFading = false;
 	}
