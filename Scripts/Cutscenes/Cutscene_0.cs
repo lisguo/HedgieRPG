@@ -24,7 +24,8 @@ public class Cutscene_0 : Cutscene{
 	}
 
 
-	private IEnumerator cutsceneSequence(){
+	private IEnumerator cutsceneSequence()
+	{
 		yield return new WaitForSeconds(2);
 
 		//Show dialog 1
@@ -53,5 +54,10 @@ public class Cutscene_0 : Cutscene{
 		Animation cameraAnim = cutsceneCamera.GetComponent<Animation>();
 		cameraAnim.clip = cameraAnim.GetClip("BlurToBattle");
 		cameraAnim.Play();
+		while (cameraAnim.isPlaying) {
+			yield return null;
+		}
+		Debug.Log("STARTING BATTLE");
+		gm.currState = GameManager.GameState.START_BATTLE;
 	}
 }

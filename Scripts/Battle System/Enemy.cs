@@ -13,6 +13,7 @@ public class Enemy{
 	}
 
 	public Rarity rarity;
+
 	public float baseHP;
 	public float currHP;
 
@@ -24,4 +25,6 @@ public class Enemy{
 
 	public float baseDEF;
 	public float currDEF;
+
+	public int level;
 }

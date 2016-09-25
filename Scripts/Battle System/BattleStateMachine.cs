@@ -37,7 +37,7 @@ public class BattleStateMachine : MonoBehaviour{
 	void Update(){
 		switch(battleStates){
 			case (PerformAction.WAIT):
-				Debug.Log("WAITING FOR ACTION");
+				//Debug.Log("WAITING FOR ACTION");
 				if(performList.Count > 0){
 					//If there is something in the list
 					battleStates = PerformAction.TAKEACTION;
@@ -68,7 +68,9 @@ public class BattleStateMachine : MonoBehaviour{
 			clipToPlay = animation.GetClip("attack");
 			animation.clip = clipToPlay;
 			animation.Play();
-			Debug.Log("Playing animation!");
+
+			//Handle Attack
+			HandleAttack(currTurn.Attacker, currTurn.Receiver);
 		}
 		while(animation.isPlaying){
 			yield return null;
@@ -76,6 +78,34 @@ public class BattleStateMachine : MonoBehaviour{
 		Debug.Log("Animation stopped");
 
 
+	}
+
+	void HandleAttack(GameObject attacker, GameObject receiver){
+		if(attacker.GetComponent<PartyMemberStateMachine>() != null){
+			//Attacker is party member
+			PartyMember pm = attacker.GetComponent<PartyMemberStateMachine>().partyMember;
+			int attack = pm.getAttack();
+
+			Enemy enemy = receiver.GetComponent<EnemyStateMachine>().enemy;
+			int defense = (int)enemy.currDEF;
+			int netLevel = pm.level - enemy.level;
+
+			int damage = CalculateDamage(attack, defense, netLevel);
+			Debug.Log("Damage: " + damage);
+
+			receiver.GetComponent<EnemyStateMachine>().enemy.currHP -= damage;
+			//SHOW HP BAR ANIMATION
+		}
+	}
+
+	int CalculateDamage(int attack, int defense, int netLevel){
+		int levelCalc = netLevel;
+		if(netLevel < 0){
+			levelCalc = 1;
+		}
+
+		int damage = ((attack * netLevel) / 250 - (defense * netLevel) / 250) * (int)Random.Range(1, 1.5f);
+		return damage;
 	}
 	public void ActionSelected(){
 		//Get giver and remove it from list

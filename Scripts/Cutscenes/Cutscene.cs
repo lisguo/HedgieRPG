@@ -6,21 +6,23 @@ using System.Collections;
 
 public abstract class Cutscene : MonoBehaviour
 {
-
+	public GameManager gm;
 	ScreenFader sf;
 	public GameObject cutsceneCamera;
 	bool isTransitioning = false;
 
 	void Start()
 	{
-		//sf = GameObject.FindGameObjectWithTag("Fader").GetComponent<ScreenFader>();
 	}
 
 
 	void OnEnable()
 	{
-		//Make player freeze
-		FindObjectOfType<PlayerMotion>().canMove = false;
+
+		gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
+		//Set game state to cutscene
+		gm.currState = GameManager.GameState.CUTSCENE;
 
 		//Get transform position vals of main camera
 		cutsceneCamera.GetComponent<Transform>().position = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>().position;
@@ -47,7 +49,7 @@ public abstract class Cutscene : MonoBehaviour
 	{
 		//Switch camera
 		cutsceneCamera.SetActive(false);
-		FindObjectOfType<PlayerMotion>().canMove = true;
+		gm.currState = GameManager.GameState.END_CUTSCENE;
 	}
 
 	public abstract void playCutscene();

@@ -23,21 +23,21 @@ public class PlayerMotion : MonoBehaviour {
 		//Used for diag boxes
 		if (!canMove) {
 			rbody.velocity = Vector2.zero;
-			anim.SetBool ("isWalking", false);
+			anim.SetBool("isWalking", false);
 			return;
-		}
-		Vector2 movement_vector = new Vector2 (Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-		//Debug.Log ("MOVEMENT VECTOR: " + movement_vector);
+		} else {
+			Vector2 movement_vector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+			//Debug.Log ("MOVEMENT VECTOR: " + movement_vector);
 
-		if(movement_vector != Vector2.zero){
-			anim.SetBool("isWalking", true);
-			anim.SetFloat ("input_x", movement_vector.x);
-			anim.SetFloat ("input_y", movement_vector.y);
+			if (movement_vector != Vector2.zero) {
+				anim.SetBool("isWalking", true);
+				anim.SetFloat("input_x", movement_vector.x);
+				anim.SetFloat("input_y", movement_vector.y);
+			} else {
+				anim.SetBool("isWalking", false);
+			}
+			//Debug.Log ("Moving by " + movement_vector * Time.deltaTime * 4);
+			rbody.MovePosition(rbody.position + movement_vector * playerSpeed);
 		}
-		else{
-			anim.SetBool ("isWalking", false);
-		}
-		//Debug.Log ("Moving by " + movement_vector * Time.deltaTime * 4);
-		rbody.MovePosition (rbody.position + movement_vector * playerSpeed);
 	}
 }
