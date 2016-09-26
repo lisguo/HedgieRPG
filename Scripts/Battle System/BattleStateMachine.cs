@@ -13,9 +13,6 @@ public class BattleStateMachine : MonoBehaviour{
 
 	public PerformAction battleStates;
 
-	public GameObject partyListObject;
-	public GameObject enemyListObject;
-
 	public List<PartyMemberStateMachine> partyPerformList = new List<PartyMemberStateMachine>();
 	public List<HandleTurn> performList = new List<HandleTurn>();
 	public List<GameObject> partyList = new List<GameObject>();
@@ -24,6 +21,8 @@ public class BattleStateMachine : MonoBehaviour{
 	//Game Objects
 	public GameObject menuButtons;
 	public GameObject statusPane;
+	public GameObject partyListObject;
+	public GameObject enemyListObject;
 
 	public string actionSelected;
 
@@ -33,15 +32,13 @@ public class BattleStateMachine : MonoBehaviour{
 		battleStates = PerformAction.WAIT;
 
 		//Initialize party and enemy lists
-		Button[] enemies = enemyListObject.GetComponentsInChildren<Button> ();
-		enemyList = GameObject [enemies.Length];
+		EnemyStateMachine[] enemies = enemyListObject.GetComponentsInChildren<EnemyStateMachine> ();
 		for(int i = 0; i < enemies.Length; i++) {
-			enemyList [i] = enemies [i].gameObject;
+			enemyList.Add(enemies [i].gameObject);
 		}
-		Button[] partyMembers = partyListObject.GetComponentsInChildren<Button> ();
-		partyList = GameObject [partyMembers.Length];
+		PartyMemberStateMachine[] partyMembers = partyListObject.GetComponentsInChildren<PartyMemberStateMachine> ();
 		for(int i = 0; i < partyMembers.Length; i++) {
-			partyList [i] = partyMembers [i].gameObject;
+			partyList.Add(partyMembers [i].gameObject);
 		}
 
 		menuButtons.SetActive(false);
@@ -118,7 +115,9 @@ public class BattleStateMachine : MonoBehaviour{
 		GameObject damageObject = receiver.transform.FindChild("Damage Dealt").gameObject;
 		Animation damageAnim = damageObject.GetComponent<Animation> ();
 		damageAnim.clip = damageAnim.GetClip ("ShowDamage");
+		Debug.Log ("CLIP: "+ damageAnim.clip);
 		damageAnim.Play ();
+		Debug.Log ("Playing animation");
 
 		//Show HP Bar
 		GameObject HPBar = receiver.transform.FindChild("HP Bar").gameObject;
@@ -160,16 +159,16 @@ public class BattleStateMachine : MonoBehaviour{
 		for(int i = 0; i < buttonList.Length; i++){
 			if (buttonList[i].gameObject == buttonObject) {
 				receiverIndex = i;
-				Debug.Log ("INDEX: " + i);
+				//Debug.Log ("INDEX: " + i);
 			}
 		}
-		Debug.Log (enemyList [receiverIndex].name);
+		//Debug.Log (enemyList [receiverIndex].name);
 		if(actionSelected == "Attack"){
 			EnemyStateMachine receiver = enemyList[receiverIndex].GetComponent<EnemyStateMachine>();
 			if(receiver == null){
 				return;
 			}
-			Debug.Log("Receiver: " + receiver.name);
+			//Debug.Log("Receiver: " + receiver.name);
 
 			HandleTurn turn = new HandleTurn();
 			turn.Attacker = giver.gameObject;

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class TextBoxManager : MonoBehaviour {
 
+	GameManager gm;
 	Animator textAnim;
 	GameObject textBox;
 	Text theText;
@@ -37,6 +38,7 @@ public class TextBoxManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 		textBox = GameObject.FindGameObjectWithTag("TextBox");
 		textAnim = textBox.GetComponent<Animator>();
 		theText = GameObject.FindGameObjectWithTag("TextBoxText").GetComponent<Text>();
@@ -146,6 +148,7 @@ public class TextBoxManager : MonoBehaviour {
 
 	public void EnableTextBox(){
 		textAnim.SetBool("dialogueOver", false);
+		gm.currState = GameManager.GameState.CUTSCENE;
 	}
 	public void DisableTextBox(){
 		textAnim.SetBool ("dialogueOver", true);
@@ -153,6 +156,7 @@ public class TextBoxManager : MonoBehaviour {
 		currentLine = startingLine;
 		firstDialogue = true;
 		this.enabled = false;
+		gm.currState = GameManager.GameState.END_CUTSCENE;
 	}
 
 

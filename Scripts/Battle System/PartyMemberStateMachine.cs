@@ -44,26 +44,26 @@ public class PartyMemberStateMachine : MonoBehaviour
 	{
 		switch (currState) {
 			case (TurnState.PROCESSING):
-				Debug.Log(partyMember.name + " PROCESSING");
+				//Debug.Log(partyMember.name + " PROCESSING");
 				UpdateProgressBar();
 				break;
 
 			case (TurnState.ADDTOLIST):
-				Debug.Log(partyMember.name + " ADDTOLIST");
+				//Debug.Log(partyMember.name + " ADDTOLIST");
 				AddToPartyPerformList();
 				break;
 
 			case (TurnState.WAITING):
-				Debug.Log(partyMember.name + " WAITING");
+				//Debug.Log(partyMember.name + " WAITING");
 				break;
 
 			case (TurnState.SELECTING):
-				Debug.Log(partyMember.name + " SELECTING");
+				//Debug.Log(partyMember.name + " SELECTING");
 				SetSelected();
 				break;
 
 			case (TurnState.RESET):
-				Debug.Log(partyMember.name + " RESET");
+				//Debug.Log(partyMember.name + " RESET");
 				ResetProgressBar();
 				Unselect();
 				break;
