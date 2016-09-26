@@ -13,6 +13,9 @@ public class BattleStateMachine : MonoBehaviour{
 
 	public PerformAction battleStates;
 
+	public GameObject partyListObject;
+	public GameObject enemyListObject;
+
 	public List<PartyMemberStateMachine> partyPerformList = new List<PartyMemberStateMachine>();
 	public List<HandleTurn> performList = new List<HandleTurn>();
 	public List<GameObject> partyList = new List<GameObject>();
@@ -28,8 +31,19 @@ public class BattleStateMachine : MonoBehaviour{
 
 	void Start(){
 		battleStates = PerformAction.WAIT;
-		enemyList.AddRange(GameObject.FindGameObjectsWithTag("EnemyInBattle"));
-		partyList.AddRange(GameObject.FindGameObjectsWithTag("PartyMemberInBattle"));
+
+		//Initialize party and enemy lists
+		Button[] enemies = enemyListObject.GetComponentsInChildren<Button> ();
+		enemyList = GameObject [enemies.Length];
+		for(int i = 0; i < enemies.Length; i++) {
+			enemyList [i] = enemies [i].gameObject;
+		}
+		Button[] partyMembers = partyListObject.GetComponentsInChildren<Button> ();
+		partyList = GameObject [partyMembers.Length];
+		for(int i = 0; i < partyMembers.Length; i++) {
+			partyList [i] = partyMembers [i].gameObject;
+		}
+
 		menuButtons.SetActive(false);
 		actionSelected = "";
 	}
@@ -48,7 +62,7 @@ public class BattleStateMachine : MonoBehaviour{
 				break;
 				
 			case (PerformAction.TAKEACTION):
-				Debug.Log("TAKE ACTION");
+				//Debug.Log("TAKE ACTION");
 				StartCoroutine(ProcessNextTurn());
 				battleStates = PerformAction.WAIT;
 				checkIfUserIsSelecting();
@@ -75,7 +89,7 @@ public class BattleStateMachine : MonoBehaviour{
 		while(animation.isPlaying){
 			yield return null;
 		}
-		Debug.Log("Animation stopped");
+		//Debug.Log("Animation stopped");
 
 
 	}
@@ -95,6 +109,29 @@ public class BattleStateMachine : MonoBehaviour{
 
 			receiver.GetComponent<EnemyStateMachine>().enemy.currHP -= damage;
 			//SHOW HP BAR ANIMATION
+			ShowHPBarAndDamage(receiver, damage);
+		}
+	}
+
+	void ShowHPBarAndDamage(GameObject receiver, int damage){
+		//Set damage and play damage animation
+		GameObject damageObject = receiver.transform.FindChild("Damage Dealt").gameObject;
+		Animation damageAnim = damageObject.GetComponent<Animation> ();
+		damageAnim.clip = damageAnim.GetClip ("ShowDamage");
+		damageAnim.Play ();
+
+		//Show HP Bar
+		GameObject HPBar = receiver.transform.FindChild("HP Bar").gameObject;
+		HPBar.SetActive (true);
+		Image HPFill = HPBar.GetComponentsInChildren<Image> () [1];
+
+		//Calculate percentage of currHP
+		EnemyStateMachine esm = receiver.GetComponent<EnemyStateMachine>();
+		if (esm != null) {
+			HPFill.fillAmount = esm.enemy.currHP / esm.enemy.baseHP;
+		} else {
+			PartyMemberStateMachine psm = receiver.GetComponent<PartyMemberStateMachine>();
+			HPFill.fillAmount = psm.partyMember.hp / psm.partyMember.fullHP;
 		}
 	}
 
@@ -117,10 +154,18 @@ public class BattleStateMachine : MonoBehaviour{
 
 
 		//Get receiver
-		string receiverName  = buttonObject.GetComponentInChildren<Text>().text;
-
+		int receiverIndex = -1;
+		Button[] buttonList = GameObject.FindGameObjectWithTag ("Attack Choices").GetComponentsInChildren<Button> ();
+		//Debug.Log (buttonObject.name + " SELECTED");
+		for(int i = 0; i < buttonList.Length; i++){
+			if (buttonList[i].gameObject == buttonObject) {
+				receiverIndex = i;
+				Debug.Log ("INDEX: " + i);
+			}
+		}
+		Debug.Log (enemyList [receiverIndex].name);
 		if(actionSelected == "Attack"){
-			EnemyStateMachine receiver = getEnemyByName(receiverName);
+			EnemyStateMachine receiver = enemyList[receiverIndex].GetComponent<EnemyStateMachine>();
 			if(receiver == null){
 				return;
 			}
@@ -134,7 +179,6 @@ public class BattleStateMachine : MonoBehaviour{
 
 			//Add turn to perform listt
 			performList.Add(turn);
-			Debug.Log("ADDED TO PERFORM LIST");
 		}
 
 		//Make party member wait againn
@@ -159,6 +203,17 @@ public class BattleStateMachine : MonoBehaviour{
 			string enemyName = enemy.enemy.name;
 			if(enemyName == name){
 				return enemy;
+			}
+		}
+		return null;
+	}
+
+	public PartyMemberStateMachine getPartyMemberByName(string name){
+		foreach(GameObject go in partyList){
+			PartyMemberStateMachine partyMember = go.GetComponent<PartyMemberStateMachine>();
+			string partyName = partyMember.partyMember.characterName;
+			if(partyName == name){
+				return partyMember;
 			}
 		}
 		return null;
